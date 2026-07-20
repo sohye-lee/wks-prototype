@@ -1,0 +1,51 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  padding: 80px 20px 20px;
+}
+
+.headline {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-aeonik);
+  font-weight: 500;
+  font-size: clamp(32px, 6vw, 96px);
+  line-height: 90%;
+  letter-spacing: -0.04em;
+  color: #000;
+}
+
+.mouth {
+  position: relative;
+  width: min(50%, 371px);
+  aspect-ratio: 371 / 527;
+}
+
+.mouthImage {
+  object-fit: contain;
+}
+
+.logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+}
+
+.logoImage {
+  max-width: 100%;
+  max-height: 100%;
+}

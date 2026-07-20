@@ -1,0 +1,23 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  width: 100%;
+  padding: 80px 40px;
+  background: var(--greyscale-White);
+}
+
+.headline {
+  margin: 0;
+  font-family: var(--font-aeonik);
+  font-weight: 500;
+  font-size: clamp(40px, 6vw, 96px);
+  line-height: 90%;
+  letter-spacing: -0.04em;
+  color: #000;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+}

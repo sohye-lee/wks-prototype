@@ -1,0 +1,136 @@
+:root {
+  --radius: 10px;
+
+  --greyscale-White: #ffffff;
+  --greyscale-Black: #000000;
+  --greyscale-Grey-200: #7d7d7d;
+  --brand-Green: #d1fa17;
+  --brand-Cyan: #00f2ff;
+  --colour-teal-600: #01d4df;
+
+  --mono-dark: #261b65;
+  --mono-mid: #432cc2;
+  --mono-white: #ffffff;
+
+  --bg: #f4f4f2;
+  --fg: #111111;
+  --desktop-bg: linear-gradient(180deg, #fff 50%, var(--brand-Green) 100%);
+  --desktop-fg: #000000;
+  --window-titlebar-bg: var(--brand-Cyan);
+  --window-body-bg: #ffffff;
+  --duotone-filter: none;
+}
+
+[data-mode='dark'] {
+  --bg: var(--mono-dark);
+  --fg: var(--mono-white);
+  --desktop-bg: linear-gradient(180deg, var(--mono-dark) 0%, var(--mono-mid) 100%);
+  --desktop-fg: var(--mono-white);
+  --window-titlebar-bg: var(--mono-mid);
+  --window-body-bg: var(--mono-dark);
+  --duotone-filter: url(#duotone-dark);
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overscroll-behavior: none;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-aeonik), ui-sans-serif, sans-serif;
+}
+
+/* dark/light mode recolors photographic images to the two-tone mono palette;
+   folder icons are intentionally excluded from this everywhere they're used */
+.mono-image {
+  filter: var(--duotone-filter);
+}
+
+/* generic black-fill UI glyphs (e.g. the settings gear) need to flip in dark mode;
+   folder icons keep their own brand cyan regardless, so this is never applied to them */
+.icon-tint {
+  filter: none;
+}
+[data-mode='dark'] .icon-tint {
+  filter: invert(1);
+}
+
+/* placeholder duotone treatment for the phone/chatter accent renders,
+   standing in for the live dot-model shader (cyan shadows, green highlights) */
+.duotone-cta {
+  filter: url(#duotone-cta) saturate(1.4);
+}
+
+/* Apple-style glassmorphism for the settings dropdown — the base layer is a
+   translucent tint (not a solid fill), so backdrop-filter actually shows the
+   page blurred through it instead of reading as an opaque dark card */
+.settings-glass-panel {
+  display: flex;
+  flex-direction: column;
+  width: 160px;
+  height: auto;
+  padding: 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 32px;
+  background:
+    linear-gradient(180deg, rgba(102, 102, 102, 0.2) 0%, rgba(102, 102, 102, 0) 32.69%),
+    linear-gradient(180deg, rgba(102, 102, 102, 0) 50%, rgba(102, 102, 102, 0.4) 100%),
+    linear-gradient(0deg, rgba(29, 29, 29, 0.2) 0%, rgba(29, 29, 29, 0.2) 100%),
+    rgba(29, 29, 29, 0.15);
+  background-blend-mode: plus-lighter, plus-lighter, color-burn, plus-lighter;
+  box-shadow:
+    16px 16px 9px -18px #fff inset,
+    -12px -12px 6px -14px #b3b3b3 inset,
+    2px 2px 1px -2px #b3b3b3 inset,
+    0 0 22px 0 rgba(242, 242, 242, 0.5) inset;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #fff;
+}
+
+/* one Control-Center-style tile per mode: icon + label, left-aligned */
+.settings-menu-item {
+  display: flex;
+  width: 120px;
+  padding: 12px 16px;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* resting hover preview (not selected) — same frosted glass as the panel */
+.settings-menu-item:hover:not([aria-checked='true']) {
+  background:
+    linear-gradient(0deg, rgba(29, 29, 29, 0.2) 0%, rgba(29, 29, 29, 0.2) 100%),
+    rgba(29, 29, 29, 0.15);
+  background-blend-mode: color-burn, plus-lighter;
+  box-shadow:
+    3px 3px 0.5px -3.5px rgba(255, 255, 255, 0.5) inset,
+    2px 2px 1px -2px #b3b3b3 inset,
+    -2px -2px 1px -2px #b3b3b3 inset,
+    0 0 22px 0 rgba(242, 242, 242, 0.5) inset;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* the currently active mode — solid bright fill, dark blue text/icon,
+   instead of the frosted look, so it reads as clearly "on" */
+.settings-menu-item[aria-checked='true'] {
+  background: var(--mono-white);
+  color: var(--mono-dark);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
