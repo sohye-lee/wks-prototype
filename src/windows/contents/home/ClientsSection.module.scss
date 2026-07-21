@@ -1,13 +1,16 @@
 .section {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
   width: 100%;
-  padding: 80px 20px 20px;
+  min-height: 860px;
+  padding: 80px 20px 40px;
 }
 
 .headline {
+  position: relative;
+  z-index: 2;
   margin: 0;
   text-align: center;
   font-family: var(--font-aeonik);
@@ -19,33 +22,19 @@
 }
 
 .mouth {
-  position: relative;
+  position: absolute;
+  z-index: 0;
+  top: 220px;
+  left: 50%;
+  transform: translateX(-50%);
   width: min(50%, 371px);
   aspect-ratio: 371 / 527;
 }
 
-.mouthImage {
-  object-fit: contain;
-}
-
-.logos {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
+.marquee {
+  position: absolute;
+  z-index: 1;
+  top: 363px;
+  left: 0;
   width: 100%;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 96px;
-  height: 96px;
-}
-
-.logoImage {
-  max-width: 100%;
-  max-height: 100%;
 }

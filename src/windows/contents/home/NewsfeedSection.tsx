@@ -1,18 +1,18 @@
-import Image from 'next/image';
 import styles from './NewsfeedSection.module.scss';
 import { Tag } from './Tag';
 import { NEWSFEED_ITEMS } from '@/content/newsfeed';
+import { DotModelViewer } from '@/effects/DotModelViewer';
 
 export function NewsfeedSection() {
   return (
     <section className={styles.section}>
       <div className={styles.accent}>
-        <Image
-          src="/images/home/figma/newsfeed-accent.png"
-          alt=""
-          fill
-          sizes="300px"
-          className={`${styles.accentImage} duotone-cta`}
+        <DotModelViewer
+          src="/images/home/phone.glb"
+          targetSize={400}
+          offsetY={0}
+          baseTiltX={0.4 + (40 * Math.PI) / 180}
+          baseTiltY={0}
         />
       </div>
       {NEWSFEED_ITEMS.map((item, i) => (

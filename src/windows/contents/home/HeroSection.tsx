@@ -1,13 +1,14 @@
 import styles from './HeroSection.module.scss';
-import { Highlight } from './Highlight';
+import { PixelHighlight } from './PixelHighlight';
 import { Tag } from './Tag';
 
 export function HeroSection() {
   return (
     <section className={styles.section}>
       <h1 className={styles.headline}>
-        A <Highlight>full-service creative</Highlight> agency that&apos;s known for{' '}
-        <Highlight>getting brands known</Highlight>.
+        A <PixelHighlight startDelay={0.4}>full-service creative</PixelHighlight>{' '}
+        agency that&apos;s known for{' '}
+        <PixelHighlight startDelay={1.2}>getting brands known</PixelHighlight>.
       </h1>
       <div className={styles.tags}>
         <Tag>all work</Tag>

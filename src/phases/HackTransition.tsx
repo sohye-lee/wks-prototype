@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import { useAppStore } from '@/stores/useAppStore';
 import Desktop from '@/desktop/Desktop';
 
-const CELL = 24;
+const CELL = 10;
 const SCATTER = 0.25;
 const SWEEP_DURATION = 0.6;
 const CELL_FADE = 0.12;

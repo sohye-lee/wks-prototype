@@ -1,15 +1,17 @@
 'use client';
 
-import { useRef, type PointerEvent, type RefObject } from 'react';
+import { useEffect, useRef, type PointerEvent, type RefObject } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { Draggable } from 'gsap/Draggable';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
 import { useWindowStore, type WindowState } from '@/stores/useWindowStore';
 import { WINDOW_MIN_SIZE, WINDOW_MAX_VIEWPORT_FRACTION, TITLEBAR_HEIGHT } from '@/desktop/layoutConstants';
 import { CONTENT_REGISTRY } from './contentRegistry';
 
-gsap.registerPlugin(Draggable, MotionPathPlugin);
+gsap.registerPlugin(Draggable, MotionPathPlugin, ScrollTrigger);
 
 interface WindowFrameProps {
   win: WindowState;
@@ -31,6 +33,7 @@ function arcPath(start: Point, end: Point): Point[] {
 export default function WindowFrame({ win, boundsRef, skipEntrance }: WindowFrameProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const titlebarRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const close = useWindowStore((s) => s.close);
   const focus = useWindowStore((s) => s.focus);
   const updatePosition = useWindowStore((s) => s.updatePosition);
@@ -109,6 +112,33 @@ export default function WindowFrame({ win, boundsRef, skipEntrance }: WindowFram
     },
     { dependencies: [win.id], scope: rootRef }
   );
+
+  // smooth-scroll each window's own content viewport — scoped to this
+  // wrapper/content pair rather than the page, since every window has its
+  // own independent scrollable area. Existing ScrollTrigger-driven effects
+  // inside window content already discover this same div as their
+  // "scroller" via a nearest-overflow-ancestor walk, and keep working
+  // unchanged: Lenis still drives the wrapper's real scrollTop, just eased.
+  useEffect(() => {
+    const wrapper = contentRef.current;
+    const content = wrapper?.firstElementChild as HTMLElement | null;
+    if (!wrapper || !content) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const lenis = new Lenis({ wrapper, content, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+
+    function onTick(time: number) {
+      lenis.raf(time * 1000);
+    }
+    gsap.ticker.add(onTick);
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      gsap.ticker.remove(onTick);
+      lenis.destroy();
+    };
+  }, []);
 
   function handleClose() {
     const el = rootRef.current;
@@ -235,7 +265,9 @@ export default function WindowFrame({ win, boundsRef, skipEntrance }: WindowFram
           ×
         </button>
       </div>
-      <div style={{ flex: 1, overflow: 'auto' }}>{Content ? <Content /> : null}</div>
+      <div ref={contentRef} style={{ flex: 1, overflow: 'auto' }}>
+        {Content ? <Content /> : null}
+      </div>
       <div
         onPointerDown={handleResizePointerDown}
         aria-hidden="true"

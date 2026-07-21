@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { aeonik } from "@/fonts/aeonik";
+import { aeonikMono } from "@/fonts/aeonikMono";
 import { DuotoneFilters } from "@/components/DuotoneFilters";
 import "./globals.css";
 
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html
       lang="ko"
-      className={`${aeonik.variable} antialiased`}
+      className={`${aeonik.variable} ${aeonikMono.variable} antialiased`}
     >
       <body>
         <DuotoneFilters />

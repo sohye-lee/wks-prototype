@@ -1,25 +1,28 @@
-import Image from 'next/image';
 import styles from './FinalCtaSection.module.scss';
 import { Tag } from './Tag';
+import { DotModelViewer } from '@/effects/DotModelViewer';
 
 export function FinalCtaSection() {
   return (
     <section className={styles.section}>
       <div className={styles.accent}>
-        <Image
-          src="/images/home/figma/final-cta-accent.png"
-          alt=""
-          fill
-          sizes="500px"
-          className={`${styles.accentImage} duotone-cta`}
+        <DotModelViewer
+          src="/images/home/chatter_purple.glb"
+          targetSize={450}
+          offsetY={0}
+          baseTiltX={0.25}
+          baseTiltY={1.05}
         />
       </div>
-      <h2 className={styles.headline}>
-        We won&apos;t tell anyone.
-        <br />
-        We&apos;ll tell everyone.
-      </h2>
-      <Tag>contact us</Tag>
+      <div className={styles.headlineWrapper}>
+
+        <h2 className={styles.headline}>
+          We won&apos;t tell anyone.
+          <br />
+          We&apos;ll tell everyone.
+        </h2>
+        <Tag>contact us</Tag>
+      </div>
     </section>
   );
 }

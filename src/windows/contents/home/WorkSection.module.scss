@@ -41,13 +41,14 @@
   background: var(--greyscale-Grey-200);
 }
 
-.image {
-  object-fit: cover;
+.image canvas {
+  width: 100%;
+  height: 100%;
 }
 
 .eyebrow {
   margin: 0;
-  font-family: var(--font-aeonik);
+  font-family: var(--font-aeonik-mono);
   font-size: 10px;
   line-height: 90%;
   letter-spacing: -0.4px;

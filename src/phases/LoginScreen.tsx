@@ -3,7 +3,6 @@
 import { FormEvent, useRef, useState } from 'react';
 import Image from 'next/image';
 import html2canvas from 'html2canvas-pro';
-import gsap from 'gsap';
 import { useAppStore } from '@/stores/useAppStore';
 import { useClockLabel } from '@/hooks/useClockLabel';
 import { WksLogo } from '@/components/WksLogo';
@@ -13,7 +12,6 @@ export default function LoginScreen() {
   const setPhase = useAppStore((s) => s.setPhase);
   const setTransitionSnapshot = useAppStore((s) => s.setTransitionSnapshot);
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
   const [wallpaper] = useState(
     () => INTRO_WALLPAPERS[Math.floor(Math.random() * INTRO_WALLPAPERS.length)]
   );
@@ -23,18 +21,6 @@ export default function LoginScreen() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-
-    if (password.trim().toLowerCase() === 'password') {
-      setError(true);
-      if (inputWrapperRef.current) {
-        gsap.fromTo(
-          inputWrapperRef.current,
-          { x: 0 },
-          { x: 8, duration: 0.06, repeat: 5, yoyo: true, ease: 'power1.inOut', clearProps: 'x' }
-        );
-      }
-      return;
-    }
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) {
@@ -125,10 +111,7 @@ export default function LoginScreen() {
             <input
               type="text"
               value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                if (error) setError(false);
-              }}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
               aria-label="Password"
               autoFocus
@@ -140,6 +123,7 @@ export default function LoginScreen() {
                 color: '#000',
                 fontFamily: 'var(--font-aeonik)',
                 fontSize: '14px',
+                lineHeight: '90%',
               }}
             />
           </div>
@@ -176,15 +160,6 @@ export default function LoginScreen() {
                 Login
           </button>
         </div>
-          {error && (
-            <p
-              role="alert"
-              className="m-0 text-xs"
-              style={{ color: '#000', fontFamily: 'var(--font-aeonik)' }}
-            >
-              Nice try — that&apos;s not it.
-            </p>
-          )}
         </form>
 
         {/* <button

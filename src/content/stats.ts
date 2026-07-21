@@ -9,4 +9,5 @@ export const STATS: StatItem[] = [
   { eyebrow: 'Years in partnership', value: '10 years' },
   { eyebrow: 'Employee happiness scale', value: '1000%' },
   { eyebrow: 'Average employee retention', value: '100 years' },
+  { eyebrow: 'Secrets we kept', value: '0%' },
 ];

@@ -2,6 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 20px;
   width: 100%;
   padding: 20px;
@@ -10,8 +11,8 @@
 .accent {
   position: absolute;
   top: -30px;
-  right: 20px;
-  width: min(35%, 300px);
+  right: 60px;
+  width: min(35%, 480px);
   aspect-ratio: 445 / 481;
   pointer-events: none;
 }
@@ -32,7 +33,7 @@
 .meta {
   margin: 0;
   flex-shrink: 0;
-  font-family: var(--font-aeonik);
+  font-family: var(--font-aeonik-mono);
   font-size: 10px;
   line-height: 90%;
   letter-spacing: -0.4px;

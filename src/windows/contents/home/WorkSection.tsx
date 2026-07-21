@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import styles from './WorkSection.module.scss';
 import { CapabilityTags } from './CapabilityTags';
+import { PixelateRevealImage } from '@/effects/PixelateRevealImage';
 import { WORKS, type WorkItem } from '@/content/works';
 
 function WorkCard({ work }: { work: WorkItem }) {
@@ -15,7 +15,7 @@ function WorkCard({ work }: { work: WorkItem }) {
     <div className={`${styles.card} ${cardClass}`}>
       <CapabilityTags tags={work.tags} />
       <div className={styles.imageFrame}>
-        <Image src={work.image} alt="" fill sizes="50vw" className={styles.image} />
+        <PixelateRevealImage src={work.image} className={styles.image} />
       </div>
       {work.eyebrow && <p className={styles.eyebrow}>{work.eyebrow}</p>}
       <h3 className={work.size === 'featured' ? styles.headlineFeatured : styles.headlineMedium}>
