@@ -33,12 +33,12 @@ export const FAKE_NOTIFICATIONS: FakeNotification[] = [
     title: 'Hannah (WKS)',
     body: 'ok this stays between us right?',
   },
-  {
-    id: 'slack-1',
-    app: 'Slack',
-    title: '#general',
-    body: 'someone just leaked the mood board. again.',
-  },
+  // {
+  //   id: 'slack-1',
+  //   app: 'Slack',
+  //   title: '#general',
+  //   body: 'someone just leaked the mood board. again.',
+  // },
   {
     id: 'calendar-1',
     app: 'Calendar',
@@ -57,12 +57,12 @@ export const FAKE_NOTIFICATIONS: FakeNotification[] = [
     title: 'Today',
     body: 'Perfect conditions for keeping a secret. Or not.',
   },
-  {
-    id: 'reminders-1',
-    app: 'Reminders',
-    title: "Don't forget",
-    body: 'Everyone already knows.',
-  },
+  // {
+  //   id: 'reminders-1',
+  //   app: 'Reminders',
+  //   title: "Don't forget",
+  //   body: 'Everyone already knows.',
+  // },
   {
     id: 'bank-1',
     app: 'Bank Alert',

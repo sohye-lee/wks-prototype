@@ -5,40 +5,27 @@ import gsap from 'gsap';
 import { HEADER_HEIGHT } from './layoutConstants';
 import { FAKE_NOTIFICATIONS, type FakeNotification } from '@/content/notifications';
 
-const SHOWN_KEY = 'wks-shown-notifications';
 const FIRST_DELAY_MS = 3000;
 const MIN_GAP_MS = 2000;
 const MAX_GAP_MS = 5000;
-
-function getShownIds(): string[] {
-  try {
-    return JSON.parse(sessionStorage.getItem(SHOWN_KEY) ?? '[]');
-  } catch {
-    return [];
-  }
-}
-
-function markShown(id: string) {
-  const shown = getShownIds();
-  if (!shown.includes(id)) {
-    sessionStorage.setItem(SHOWN_KEY, JSON.stringify([...shown, id]));
-  }
-}
 
 interface ActiveNotification extends FakeNotification {
   key: number;
 }
 
 // a fake macOS-style notification stack — starts a few seconds after the
-// desktop loads, then drips in occasional joke/real notifications (never
-// repeating one already shown this session, tracked via sessionStorage so a
-// refresh mid-session doesn't replay them), stacking newest-at-bottom, with
-// per-card close (on hover) and a "Clear All" once more than one is queued
+// desktop loads, then drips in occasional joke/real notifications, never
+// repeating one already shown. "Already shown" is tracked purely in memory
+// (not sessionStorage) so a refresh intentionally starts the drip over —
+// this is a decorative loop, not state worth surviving a reload. Stacks
+// newest-at-bottom, with per-card close (on hover) and a "Clear All" once
+// more than one is queued.
 export default function FakeNotifications() {
   const [active, setActive] = useState<ActiveNotification[]>([]);
   const keyRef = useRef(0);
   const listRef = useRef<HTMLDivElement>(null);
   const prevCountRef = useRef(0);
+  const shownRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     let cancelled = false;
@@ -48,12 +35,10 @@ export default function FakeNotifications() {
       timeoutId = setTimeout(() => {
         if (cancelled) return;
 
-        const shown = getShownIds();
-        const remaining = FAKE_NOTIFICATIONS.filter((n) => !shown.includes(n.id));
+        const remaining = FAKE_NOTIFICATIONS.filter((n) => !shownRef.current.has(n.id));
         if (remaining.length === 0) {
-          // exhausted for this session — sessionStorage.removeItem('wks-shown-notifications') to reset
           if (process.env.NODE_ENV !== 'production') {
-            console.info('[FakeNotifications] all notifications shown this session — none left to queue');
+            console.info('[FakeNotifications] all notifications shown this load — none left to queue');
           }
           return;
         }
@@ -64,7 +49,7 @@ export default function FakeNotifications() {
           remaining.find((n) => n.id === FAKE_NOTIFICATIONS[0].id) ??
           remaining[Math.floor(Math.random() * remaining.length)];
 
-        markShown(next.id);
+        shownRef.current.add(next.id);
         keyRef.current += 1;
         setActive((prev) => [...prev, { ...next, key: keyRef.current }]);
 
