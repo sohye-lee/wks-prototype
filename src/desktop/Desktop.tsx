@@ -7,6 +7,7 @@ import MenuBar from './MenuBar';
 import FolderIcon from './FolderIcon';
 import WindowManager from '@/windows/WindowManager';
 import CrazyModeOverlay from '@/effects/CrazyModeOverlay';
+import FakeNotifications from './FakeNotifications';
 import { HEADER_HEIGHT } from './layoutConstants';
 
 export default function Desktop() {
@@ -38,6 +39,7 @@ export default function Desktop() {
         <WindowManager boundsRef={boundsRef} />
       </div>
       <CrazyModeOverlay />
+      <FakeNotifications />
     </div>
   );
 }
