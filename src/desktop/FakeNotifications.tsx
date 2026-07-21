@@ -6,9 +6,9 @@ import { HEADER_HEIGHT } from './layoutConstants';
 import { FAKE_NOTIFICATIONS, type FakeNotification } from '@/content/notifications';
 
 const SHOWN_KEY = 'wks-shown-notifications';
-const FIRST_DELAY_MS = 5000;
-const MIN_GAP_MS = 15000;
-const MAX_GAP_MS = 35000;
+const FIRST_DELAY_MS = 3000;
+const MIN_GAP_MS = 2000;
+const MAX_GAP_MS = 5000;
 
 function getShownIds(): string[] {
   try {
@@ -50,7 +50,13 @@ export default function FakeNotifications() {
 
         const shown = getShownIds();
         const remaining = FAKE_NOTIFICATIONS.filter((n) => !shown.includes(n.id));
-        if (remaining.length === 0) return; // exhausted for this session
+        if (remaining.length === 0) {
+          // exhausted for this session — sessionStorage.removeItem('wks-shown-notifications') to reset
+          if (process.env.NODE_ENV !== 'production') {
+            console.info('[FakeNotifications] all notifications shown this session — none left to queue');
+          }
+          return;
+        }
 
         // the WKS News item (index 0) always leads if it hasn't shown yet;
         // otherwise pick randomly from whatever's left
