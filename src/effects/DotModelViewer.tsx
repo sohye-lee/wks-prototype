@@ -90,7 +90,7 @@ const TILT_EASE = 0.06;
 // solid dark backdrop or the model's own baked colors.
 export function DotModelViewer({
   src,
-  color = '#00F2FF',
+  color = '#5741D3',
   cell = 5,
   targetSize = 450,
   offsetY = 0,
